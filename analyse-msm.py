@@ -4,6 +4,7 @@ import requests
 import arrow
 import json
 import numpy as np
+import argparse
 from ripe.atlas.cousteau import ( AtlasResultsRequest, Measurement )
 
 '''
@@ -71,8 +72,11 @@ def get_icmp_stats( msm_id, start, stop, res ):
          print >>sys.stderr, "fetch failure"
 
 def main():
+   parser = argparse.ArgumentParser()
+   parser.add_argument('inputfile',help="file with Atlas measurement results")
+   args = parser.parse_args() 
    print "#prb dst af tcp10 icmp10 diff tcpvalcount icmpvalcount tcpcount icmpcount"
-   with open( sys.argv[1] ) as inf:
+   with open( args.inputfile ) as inf:
       for line in inf:
          d = json.loads( line )
          if 'response' in d:
